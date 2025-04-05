@@ -1,4 +1,5 @@
-package interfaces;
+package com.chauffeursync.interfaces;
 
-public class Screen {
+public interface Screen {
+    void show();
 }

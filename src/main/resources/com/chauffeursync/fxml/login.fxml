@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<VBox xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER" spacing="10" prefWidth="300" prefHeight="200">
 
-</AnchorPane>
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <Label text="Email:" />
+    <TextField fx:id="emailField" />
+
+    <Label text="Wachtwoord:" />
+    <PasswordField fx:id="passwordField" />
+
+    <Button text="Inloggen" onAction="#handleLogin"/>
+</VBox>

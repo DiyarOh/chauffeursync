@@ -1,4 +1,8 @@
-package enums;
+package com.chauffeursync.enums;
 
-public class ScreenType {
+public enum ScreenType {
+    START,
+    LOGIN,
+    REGISTER,
+    DASHBOARD,
 }

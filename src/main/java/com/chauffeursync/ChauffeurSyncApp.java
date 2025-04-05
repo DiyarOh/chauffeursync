@@ -1,23 +1,21 @@
-package com.example.chauffeursync;
+package com.chauffeursync;
 
+import com.chauffeursync.database.DatabaseManager;
+import com.chauffeursync.manager.ScreenManager;
+import com.chauffeursync.enums.ScreenType;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class ChauffeurSyncApp extends Application {
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ChauffeurSyncApp.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        DatabaseManager.initializeIfNeeded();
+        ScreenManager screenManager = new ScreenManager(stage);
+        screenManager.switchTo(ScreenType.START);
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
