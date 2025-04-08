@@ -11,7 +11,7 @@ import java.util.Map;
 public class ScreenManager {
 
     private final Stage primaryStage;
-    private final Map<ScreenType, Screen> screenRegistry = new HashMap<>();
+    private final Map<ScreenType, AbstractScreen> screenRegistry = new HashMap<>();
 
     private final UserController userController = new UserController();
 
@@ -22,15 +22,17 @@ public class ScreenManager {
         register(ScreenType.START, new StartScreen(this));
         register(ScreenType.LOGIN, new LoginScreen(this));
         register(ScreenType.REGISTER, new RegisterScreen(this));
-        register(ScreenType.DASHBOARD, new DashboardScreen(this));
+        register(ScreenType.ADMIN_DASHBOARD, new AdminDashboardScreen(this));
+        register(ScreenType.CHAUFFEUR_DASHBOARD, new ChauffeurDashboardScreen(this));
+        register(ScreenType.BOEKHOUDER_DASHBOARD, new BoekhouderDashboardScreen(this));
     }
 
-    private void register(ScreenType type, Screen screen) {
+    private void register(ScreenType type, AbstractScreen screen) {
         screenRegistry.put(type, screen);
     }
 
     public void switchTo(ScreenType type) {
-        Screen screen = screenRegistry.get(type);
+        AbstractScreen screen = screenRegistry.get(type);
         if (screen != null) {
             screen.show();
         } else {

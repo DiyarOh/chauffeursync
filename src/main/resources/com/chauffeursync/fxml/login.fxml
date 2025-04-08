@@ -16,4 +16,5 @@
     <PasswordField fx:id="passwordField" />
 
     <Button text="Inloggen" onAction="#handleLogin"/>
+    <Button text="Terug" onAction="#handleBack" styleClass="back-button"/>
 </VBox>

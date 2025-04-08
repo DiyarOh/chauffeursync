@@ -16,4 +16,5 @@
     <PasswordField fx:id="passwordField" />
 
     <Button text="Registreren" onAction="#handleRegister"/>
+    <Button text="Terug" onAction="#handleBack" styleClass="back-button"/>
 </VBox>

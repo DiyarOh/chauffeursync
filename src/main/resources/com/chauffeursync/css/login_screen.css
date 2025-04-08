@@ -1,0 +1,54 @@
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #f7f9fc;
+}
+
+/* Labels */
+.label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+}
+
+/* Tekstvelden */
+.text-field, .password-field {
+    -fx-pref-width: 240;
+    -fx-padding: 8;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-background-color: #ffffff;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3498db;
+    -fx-border-width: 2;
+}
+
+/* Login knop */
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 18;
+    -fx-cursor: hand;
+    -fx-pref-width: 240;
+}
+
+.button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3498db;
+    -fx-underline: true;
+    -fx-font-size: 13px;
+    -fx-padding: 4 8;
+}
+
+.back-button:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2980b9;
+}

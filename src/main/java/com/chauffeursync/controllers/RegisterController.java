@@ -33,4 +33,9 @@ public class RegisterController {
             System.out.println("Registratie mislukt");
         }
     }
+    
+    @FXML
+    private void handleBack() {
+        screenManager.switchTo(ScreenType.START);
+    }
 }

@@ -8,13 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import java.io.IOException;
+import java.net.URL;
 
-public class LoginScreen implements Screen {
-
-    private final ScreenManager manager;
+public class LoginScreen extends AbstractScreen {
 
     public LoginScreen(ScreenManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     @Override
@@ -24,8 +23,17 @@ public class LoginScreen implements Screen {
             loader.setController(new LoginController(manager));
             Parent root = loader.load();
 
+            Scene scene = new Scene(root, 400, 300);
+
+            String cssPath = "/com/chauffeursync/css/login_screen.css";
+            URL cssUrl = getClass().getResource(cssPath);
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
             manager.getPrimaryStage().setTitle("Inloggen - ChauffeurSync");
-            manager.getPrimaryStage().setScene(new Scene(root));
+            manager.getPrimaryStage().setScene(scene);
+            manager.getPrimaryStage().setResizable(false);
             manager.getPrimaryStage().show();
         } catch (IOException e) {
             e.printStackTrace();

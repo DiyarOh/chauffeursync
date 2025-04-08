@@ -5,4 +5,7 @@ public enum ScreenType {
     LOGIN,
     REGISTER,
     DASHBOARD,
+    ADMIN_DASHBOARD,
+    CHAUFFEUR_DASHBOARD,
+    BOEKHOUDER_DASHBOARD
 }

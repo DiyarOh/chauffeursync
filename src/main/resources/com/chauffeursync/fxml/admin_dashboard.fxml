@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Top bar -->
+    <top>
+        <HBox spacing="20" fx:id="topBar" styleClass="top-bar">
+            <padding><Insets top="15" bottom="15" left="20" right="20"/></padding>
+            <Label fx:id="nameLabel" styleClass="user-name"/>
+            <Label fx:id="emailLabel" styleClass="user-email"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="logoutButton" text="Uitloggen" onAction="#handleLogout" styleClass="logout-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <StackPane alignment="TOP_CENTER">
+                <VBox fx:id="mainContainer" maxWidth="1000" spacing="30" alignment="TOP_CENTER">
+                    <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
+
+                    <!-- Statistiek kaarten -->
+                    <HBox fx:id="statsBox" spacing="15" alignment="CENTER"/>
+
+                    <!-- Snelkoppelingen -->
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button text="Gebruikers beheren" fx:id="manageUsersButton" onAction="#handleManageUsers" styleClass="quick-button"/>
+                        <Button text="Voertuigen beheren" fx:id="manageVehiclesButton" onAction="#handleManageVehicles" styleClass="quick-button"/>
+                        <Button text="Rapportages" fx:id="reportButton" onAction="#handleReports" styleClass="quick-button"/>
+                    </HBox>
+
+                    <!-- Meldingen en shifts -->
+                    <HBox spacing="30" alignment="TOP_CENTER">
+                        <VBox fx:id="notificationsBox" spacing="10" prefWidth="400" styleClass="card">
+                            <Label text="Meldingen" styleClass="section-title"/>
+                            <!-- Meldingen worden dynamisch toegevoegd -->
+                        </VBox>
+
+                        <VBox spacing="10" styleClass="card" prefWidth="550">
+                            <Label text="Shifts" styleClass="section-title"/>
+                            <VBox fx:id="shiftBox" spacing="10"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

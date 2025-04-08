@@ -3,33 +3,52 @@ package com.chauffeursync.screens;
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.interfaces.Screen;
 import com.chauffeursync.manager.ScreenManager;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
-public class StartScreen implements Screen {
-
-    private final ScreenManager manager;
+public class StartScreen extends AbstractScreen {
 
     public StartScreen(ScreenManager manager) {
-        this.manager = manager;
+        super(manager);
     }
 
     @Override
     public void show() {
-        VBox root = new VBox(10);
-        root.setStyle("-fx-padding: 40; -fx-alignment: center;");
+        // Titel
+        Text title = new Text("Welkom bij ChauffeurSync");
+        title.setFont(Font.font("Segoe UI", 22));
 
+        // Knoppen
         Button loginBtn = new Button("Inloggen");
-        loginBtn.setOnAction(e -> manager.switchTo(ScreenType.LOGIN));
-
         Button registerBtn = new Button("Registreren");
+
+        loginBtn.getStyleClass().add("main-button");
+        registerBtn.getStyleClass().add("main-button");
+
+        loginBtn.setOnAction(e -> manager.switchTo(ScreenType.LOGIN));
         registerBtn.setOnAction(e -> manager.switchTo(ScreenType.REGISTER));
 
-        root.getChildren().addAll(loginBtn, registerBtn);
+        // Layout
+        VBox buttonBox = new VBox(15, loginBtn, registerBtn);
+        buttonBox.setAlignment(Pos.CENTER);
+
+        VBox root = new VBox(30, title, buttonBox);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: #f7f9fc;");
+
+        Scene scene = new Scene(root, 400, 300);
+
+        // Voeg optioneel CSS toe
+        String css = getClass().getResource("/com/chauffeursync/css/start_screen.css").toExternalForm();
+        scene.getStylesheets().add(css);
 
         manager.getPrimaryStage().setTitle("Welkom - ChauffeurSync");
-        manager.getPrimaryStage().setScene(new Scene(root, 300, 200));
+        manager.getPrimaryStage().setScene(scene);
+        manager.getPrimaryStage().setResizable(false);
         manager.getPrimaryStage().show();
     }
 }
