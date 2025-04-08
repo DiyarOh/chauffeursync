@@ -1,16 +1,45 @@
 package com.chauffeursync.controllers;
 
 import com.chauffeursync.database.DatabaseManager;
+import com.chauffeursync.models.Role;
 import com.chauffeursync.models.User;
+import com.chauffeursync.models.UserUpdateData;
 
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserController {
 
     private User currentUser;
+
+    public User getUserById(String id) {
+        return User.findById(id);
+    }
+
+    public List<User> listUsers() {
+        if (!isAdmin()) {
+            System.out.println("Actie niet toegestaan: alleen beheerders kunnen gebruikerslijst ophalen.");
+            return new ArrayList<>();
+        }
+        return User.findAll();
+    }
+
+    public boolean updateUser(String id, UserUpdateData data) {
+        return User.updateById(id, data);
+    }
+
+    public boolean deleteUser(String id) {
+        return User.deleteById(id);
+    }
+
+    public boolean isAdmin() {
+        Role role = currentUser.getRole();
+        return role != null && "Administrator".equalsIgnoreCase(role.getTitle());
+    }
 
     public boolean register(String name, String email, String password) {
         String roleId = getRoleIdByTitle("Chauffeur");
