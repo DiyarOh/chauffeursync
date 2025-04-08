@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER"
+      spacing="15"
+      prefWidth="400"
+      prefHeight="300">
+
+    <Label text="Welkom op het Dashboard" style="-fx-font-size: 18px;" />
+
+    <Label fx:id="nameLabel" text="Naam:" />
+    <Label fx:id="emailLabel" text="E-mail:" />
+    <ScrollPane fx:id="shiftScrollPane">
+        <VBox fx:id="shiftBox" spacing="10" padding="10"/>
+    </ScrollPane>
+
+
+    <Button fx:id="logoutButton" text="Uitloggen" onAction="#handleLogout" />
+
+</VBox>

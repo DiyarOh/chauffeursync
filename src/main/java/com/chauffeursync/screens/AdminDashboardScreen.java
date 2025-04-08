@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class AdminDashboardScreen extends DashboardScreen {
+
     public AdminDashboardScreen(ScreenManager manager) {
         super(manager);
     }

@@ -126,6 +126,76 @@ public class User {
         }
     }
 
+    public static User findById(String id) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM User WHERE id = ?");
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        null,
+                        rs.getString("role_id")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<User> findAll() {
+        List<User> users = new ArrayList<>();
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM User");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                users.add(new User(
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        null,
+                        rs.getString("role_id")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static boolean updateById(String id, UserUpdateData data) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "UPDATE User SET name = ?, email = ?, role_id = ? WHERE id = ?"
+            );
+            stmt.setString(1, data.name);
+            stmt.setString(2, data.email);
+            stmt.setString(3, data.roleId);
+            stmt.setString(4, id);
+            int updated = stmt.executeUpdate();
+            return updated > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean deleteById(String id) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM User WHERE id = ?");
+            stmt.setString(1, id);
+            int deleted = stmt.executeUpdate();
+            return deleted > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     private static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

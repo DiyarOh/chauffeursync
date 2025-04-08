@@ -15,6 +15,8 @@ public class Shift {
     private final String vehicleId;
     private final String startTime;
     private final String endTime;
+    private Integer startKm;
+    private Integer endKm;
 
     public Shift(String id, String userId, String vehicleId, String startTime, String endTime) {
         this.id = id;
@@ -25,13 +27,16 @@ public class Shift {
     }
 
     public static Shift fromResultSet(ResultSet rs) throws Exception {
-        return new Shift(
+        Shift shift = new Shift(
                 rs.getString("id"),
                 rs.getString("user_id"),
                 rs.getString("vehicle_id"),
                 rs.getString("start_time"),
                 rs.getString("end_time")
         );
+        shift.startKm = rs.getObject("start_km") != null ? rs.getInt("start_km") : null;
+        shift.endKm = rs.getObject("end_km") != null ? rs.getInt("end_km") : null;
+        return shift;
     }
 
     public String getId() {
@@ -52,6 +57,48 @@ public class Shift {
 
     public String getEndTime() {
         return endTime;
+    }
+
+    public boolean updateStartKm(int km) {
+        return updateKmValue("start_km", km);
+    }
+
+    public boolean updateEndKm(int km) {
+        return updateKmValue("end_km", km);
+    }
+
+    private boolean updateKmValue(String column, int km) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Shift SET " + column + " = ? WHERE id = ?");
+            stmt.setInt(1, km);
+            stmt.setString(2, this.id);
+            int updated = stmt.executeUpdate();
+            if (updated > 0) {
+                if (column.equals("start_km")) this.startKm = km;
+                if (column.equals("end_km")) this.endKm = km;
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<KilometerEntry> getKilometerEntries() {
+        List<KilometerEntry> entries = new ArrayList<>();
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT * FROM KilometerEntry WHERE shift_id = ?"
+            );
+            stmt.setString(1, this.id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                entries.add(KilometerEntry.fromResultSet(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return entries;
     }
 
     public static List<Shift> getAllShifts() {
