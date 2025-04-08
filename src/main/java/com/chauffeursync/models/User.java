@@ -52,9 +52,14 @@ public class User {
 
     public boolean checkPassword(String inputPassword) {
         String hashedInput = hashPassword(inputPassword);
-        return this.password.equals(hashedInput);
-    }
+        String passwordHash = getHashedPassword();
 
+        if (passwordHash == null || passwordHash.isEmpty()) {
+            return false;
+        }
+        System.out.println(hashedInput);
+        return passwordHash.equals(hashedInput);
+    }
 
     public Role getRole() {
         try (Connection conn = DatabaseManager.getConnection()) {
@@ -84,7 +89,7 @@ public class User {
                 reports.add(DriverReport.fromResultSet(rs));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return reports;
     }
@@ -102,6 +107,20 @@ public class User {
             e.printStackTrace();
         }
         return reports;
+    }
+
+    private String getHashedPassword() {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT password FROM User WHERE id = ?");
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public static User insertUser(String name, String email, String plainPassword, String roleId) {
@@ -166,19 +185,47 @@ public class User {
         return users;
     }
 
-    public static boolean updateById(String id, UserUpdateData data) {
+    public static boolean updateEmailById(String id, String email) {
         try (Connection conn = DatabaseManager.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "UPDATE User SET name = ?, email = ?, role_id = ? WHERE id = ?"
+                    "UPDATE User SET email = ? WHERE id = ?"
             );
-            stmt.setString(1, data.name);
-            stmt.setString(2, data.email);
-            stmt.setString(3, data.roleId);
-            stmt.setString(4, id);
+            stmt.setString(1, email);
+            stmt.setString(2, id);
             int updated = stmt.executeUpdate();
             return updated > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean updateRoleById(String id, String roleId) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "UPDATE User SET role_id = ? WHERE id = ?"
+            );
+            stmt.setString(1, roleId);
+            stmt.setString(2, id);
+            int updated = stmt.executeUpdate();
+            return updated > 0;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean updatePasswordById(String id, String password) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "UPDATE User SET password = ? WHERE id = ?"
+            );
+            stmt.setString(1, hashPassword(password));
+            stmt.setString(2, id);
+            int updated = stmt.executeUpdate();
+            return updated > 0;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -248,5 +295,25 @@ public class User {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public static User findUser(String email) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM User WHERE email = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new User(
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("role_id")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
