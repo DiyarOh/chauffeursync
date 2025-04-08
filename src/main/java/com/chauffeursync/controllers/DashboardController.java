@@ -1,5 +1,6 @@
 package com.chauffeursync.controllers;
 
+import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
 import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
@@ -47,21 +48,23 @@ public class DashboardController {
     private void loadShifts(User user) {
         shiftBox.getChildren().clear();
 
-        // Voor nu gebruiken we dummy shifts – later vervang ik dit met: user.getShifts()
-        for (int i = 1; i <= 10; i++) {
+        for (Shift shift : user.getShifts()) {
             VBox shiftCard = new VBox();
             shiftCard.getStyleClass().add("shift-card");
             shiftCard.setSpacing(6);
 
-            Label timeLabel = new Label("08:00 - 16:00");
-            Label vehicleLabel = new Label("Voertuig: Mercedes Sprinter");
-            Label userLabel = new Label("Chauffeur: " + user.getName());
+            Label timeLabel = new Label(String.format("%s - %s", shift.getStartTime(), shift.getEndTime()));
+            Label vehicleLabel = new Label(String.format("Voertuig: %s", shift.getVehicleId()));
+            Label userLabel = new Label("Chauffeur: Deze gebruiker is verwijderd.");
 
+            User shiftOwner = User.getUserById(shift.getUserId());
+            if (shiftOwner != null) {
+                userLabel = new Label("Chauffeur: " + shiftOwner.getName());
+            }
             shiftCard.getChildren().addAll(timeLabel, vehicleLabel, userLabel);
 
-            int finalI = i;
             shiftCard.setOnMouseClicked(e -> {
-                System.out.println("Shift " + finalI + " geselecteerd");
+                System.out.println("Shift " + shift.getId() + " geselecteerd");
                 // Hier later een detailview openen
             });
 
@@ -71,7 +74,7 @@ public class DashboardController {
 
     @FXML
     private void handleManageUsers() {
-        // TODO: Navigatie naar gebruikersbeheer
+        manager.switchTo(ScreenType.MANAGE_USERS);
     }
 
     @FXML

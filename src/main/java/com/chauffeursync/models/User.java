@@ -13,7 +13,7 @@ public class User {
     private final String id;
     private final String name;
     private final String email;
-    private final String password;
+    private String password = null;
     private final String roleId;
 
     public User(String id, String email, String name, String password, String roleId) {
@@ -21,6 +21,12 @@ public class User {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.roleId = roleId;
+    }
+    public User(String id, String email, String name, String roleId) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
         this.roleId = roleId;
     }
 
@@ -38,6 +44,10 @@ public class User {
 
     public String getRoleId() {
         return roleId;
+    }
+
+    public boolean isAdmin() {
+        return getRole().getTitle().equals("Administrator");
     }
 
     public boolean checkPassword(String inputPassword) {
@@ -61,18 +71,7 @@ public class User {
     }
 
     public List<Shift> getShifts() {
-        List<Shift> shifts = new ArrayList<>();
-        try (Connection conn = DatabaseManager.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Shift WHERE user_id = ?");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                shifts.add(Shift.fromResultSet(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return shifts;
+        return isAdmin() ? Shift.getAllShifts() : Shift.getUserShifts(id);
     }
 
     public List<DriverReport> getReports() {
@@ -139,5 +138,45 @@ public class User {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static User getUserById(String id){
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM User WHERE id = ?");
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("role_id")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<User> getAllUsers(){
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM User ");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("id"),
+                        rs.getString("email"),
+                        rs.getString("name"),
+                        rs.getString("role_id")
+                );
+                users.add(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 }

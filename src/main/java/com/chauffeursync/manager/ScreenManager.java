@@ -25,6 +25,7 @@ public class ScreenManager {
         register(ScreenType.ADMIN_DASHBOARD, new AdminDashboardScreen(this));
         register(ScreenType.CHAUFFEUR_DASHBOARD, new ChauffeurDashboardScreen(this));
         register(ScreenType.BOEKHOUDER_DASHBOARD, new BoekhouderDashboardScreen(this));
+        register(ScreenType.MANAGE_USERS, new ManageUserScreen(this));
     }
 
     private void register(ScreenType type, AbstractScreen screen) {

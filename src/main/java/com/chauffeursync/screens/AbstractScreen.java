@@ -1,10 +1,13 @@
 package com.chauffeursync.screens;
 
 import com.chauffeursync.manager.ScreenManager;
+import com.chauffeursync.models.Shift;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
+
+import java.util.List;
 
 public abstract class AbstractScreen {
 

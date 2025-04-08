@@ -1,7 +1,6 @@
 @import url("base.css");
 
-/* Shift cards als je ze toevoegt via VBox */
-.shift-card {
+.user-card {
     -fx-background-color: #ffffff;
     -fx-padding: 12;
     -fx-background-radius: 10;
@@ -13,7 +12,7 @@
     -fx-spacing: 6;
 }
 
-.shift-card:hover {
+.user-card:hover {
     -fx-background-color: #f0f7ff;
     -fx-border-color: #3498db;
 }
