@@ -16,59 +16,6 @@ public class UserController {
 
     private User currentUser;
 
-    public User getUserById(String id) {
-        return User.findById(id);
-    }
-
-    public List<User> listUsers() {
-        if (!isAdmin()) {
-            System.out.println("Actie niet toegestaan: alleen beheerders kunnen gebruikerslijst ophalen.");
-            return new ArrayList<>();
-        }
-        return User.findAll();
-    }
-
-    public boolean updateUser(String id, UserUpdateData data) {
-        return User.updateById(id, data);
-    }
-
-    public boolean deleteUser(String id) {
-        return User.deleteById(id);
-    }
-
-    public boolean isAdmin() {
-        Role role = currentUser.getRole();
-        return role != null && "Administrator".equalsIgnoreCase(role.getTitle());
-    }
-
-    public boolean register(String name, String email, String password) {
-        String roleId = getRoleIdByTitle("Chauffeur");
-        if (roleId == null) {
-            System.out.println("Rol 'Chauffeur' niet gevonden.");
-            return false;
-        }
-
-        if (userExists(email)) {
-            System.out.println("Gebruiker bestaat al.");
-            return false;
-        }
-
-        User user = User.insertUser(name, email, password, roleId);
-        return user != null;
-    }
-
-    private boolean userExists(String email) {
-        try (Connection conn = DatabaseManager.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM User WHERE email = ?");
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     public boolean login(String email, String password) {
         String hashedPassword = hashPassword(password);
         try (Connection conn = DatabaseManager.getConnection()) {
@@ -94,12 +41,65 @@ public class UserController {
         return false;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    public boolean register(String name, String email, String password) {
+        String roleId = getRoleIdByTitle("Chauffeur");
+        if (roleId == null) {
+            System.out.println("Rol 'Chauffeur' niet gevonden.");
+            return false;
+        }
+
+        if (userExists(email)) {
+            System.out.println("Gebruiker bestaat al.");
+            return false;
+        }
+
+        User user = User.insertUser(name, email, password, roleId);
+        return user != null;
     }
 
     public void logout() {
         currentUser = null;
+    }
+
+    public boolean isAdmin() {
+        Role role = currentUser.getRole();
+        return role != null && "Administrator".equalsIgnoreCase(role.getTitle());
+    }
+
+    public List<User> listUsers() {
+        if (!isAdmin()) {
+            System.out.println("Actie niet toegestaan: alleen beheerders kunnen gebruikerslijst ophalen.");
+            return new ArrayList<>();
+        }
+        return User.findAll();
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public User getUserById(String id) {
+        return User.findById(id);
+    }
+
+    public boolean updateUser(String id, UserUpdateData data) {
+        return User.updateById(id, data);
+    }
+
+    public boolean deleteUser(String id) {
+        return User.deleteById(id);
+    }
+
+    private boolean userExists(String email) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT 1 FROM User WHERE email = ?");
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private String hashPassword(String password) {
