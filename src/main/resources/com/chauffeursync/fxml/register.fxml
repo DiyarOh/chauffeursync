@@ -15,6 +15,6 @@
     <Label text="Wachtwoord:" />
     <PasswordField fx:id="passwordField" />
 
-    <Button text="Registreren" onAction="#handleRegister"/>
+    <Button text="Registreren" onAction="#handleRegister" styleClass="main-button"/>
     <Button text="Terug" onAction="#handleBack" styleClass="back-button"/>
 </VBox>

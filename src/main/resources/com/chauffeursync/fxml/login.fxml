@@ -15,6 +15,6 @@
     <Label text="Wachtwoord:" />
     <PasswordField fx:id="passwordField" />
 
-    <Button text="Inloggen" onAction="#handleLogin"/>
+    <Button text="Inloggen" onAction="#handleLogin" styleClass="main-button"/>
     <Button text="Terug" onAction="#handleBack" styleClass="back-button"/>
 </VBox>

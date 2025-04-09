@@ -1,8 +1,11 @@
 package com.chauffeursync.controllers;
+import com.chauffeursync.components.DateTimePicker;
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
 import com.chauffeursync.models.Role;
+import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
+import com.chauffeursync.models.Vehicle;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -10,6 +13,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class ManageUserController {
@@ -54,6 +60,7 @@ public class ManageUserController {
 
         List<User> users = User.getAllUsers();
         List<Role> availableRoles = Role.getAllRoles();
+        List<Vehicle> availableVehicle = Vehicle.getAllVehicles();
 
         for (User user : users) {
             VBox userCard = new VBox(8);
@@ -67,6 +74,7 @@ public class ManageUserController {
             Button deleteButton = new Button("Verwijderen");
             Button editButton = new Button("Bewerken");
             Button changeRoleButton = new Button("Rol wijzigen");
+            Button addShiftButton = new Button("Dienst aanmaken");
 
             deleteButton.getStyleClass().add("actie-knop");
             deleteButton.setOnAction(e -> {
@@ -75,8 +83,60 @@ public class ManageUserController {
             editButton.getStyleClass().add("actie-knop");
             changeRoleButton.getStyleClass().add("actie-knop");
 
-            HBox buttonBox = new HBox(10, deleteButton, editButton, changeRoleButton);
+            HBox buttonBox = new HBox(10, deleteButton, editButton, changeRoleButton, addShiftButton);
             buttonBox.getStyleClass().add("user-actions");
+
+            // Add Shift form (hidden)
+            VBox shiftForm = new VBox(6);
+            shiftForm.setManaged(false);
+            shiftForm.setVisible(false);
+
+            DateTimePicker startPicker = new DateTimePicker();
+            DateTimePicker endPicker = new DateTimePicker();
+
+
+            ComboBox<Vehicle> vehicleSelector = new ComboBox<>();
+            vehicleSelector.getItems().addAll(availableVehicle);
+
+            Button saveShiftBtn = new Button("Aanmaken");
+            saveShiftBtn.getStyleClass().add("actie-knop");
+
+            saveShiftBtn.setOnAction(e -> {
+                Vehicle selectedVehicle = vehicleSelector.getValue();
+                LocalDateTime startDate = startPicker.getDateTime();
+                LocalDateTime  endDate = endPicker.getDateTime();
+
+                if (selectedVehicle != null && startDate != null && endDate != null) {
+                    userController.createShift(new Shift(
+                            user.getId() ,selectedVehicle.getId(), startDate, endDate
+                    ));
+                } else {
+                    System.out.println("Geen wijziging uitgevoerd.");
+                }
+            });
+
+            // This translates the Object name to be the getTitle so it's readable for the user
+            vehicleSelector.setConverter(new StringConverter<Vehicle>() {
+                @Override
+                public String toString(Vehicle vehicle) {
+                    return vehicle != null ? vehicle.getTitle() : "";
+                }
+
+                // This reverses it, i don't use this, but it is required
+                @Override
+                public Vehicle fromString(String string) {
+                    return availableVehicle.stream()
+                            .filter(r -> r.getTitle().equals(string))
+                            .findFirst()
+                            .orElse(null);
+                }
+            });
+
+            shiftForm.getChildren().addAll(
+                    new Label("Selecteer voertuig:"), vehicleSelector,
+                    new Label("Start tijd"), startPicker,
+                    new Label("End tijd"), endPicker
+            );
 
             // Edit user form (hidden)
             VBox editForm = new VBox(6);
@@ -143,7 +203,7 @@ public class ManageUserController {
             roleSelector.setValue(user.getRole());
 
             // This translates the Object name to be the getTitle so it's readable for the user
-            roleSelector.setConverter(new StringConverter<>() {
+            roleSelector.setConverter(new StringConverter<Role>() {
                 @Override
                 public String toString(Role role) {
                     return role != null ? role.getTitle() : "";
@@ -177,10 +237,11 @@ public class ManageUserController {
             // Toggle hidden
             editButton.setOnAction(e -> toggleVisibility(editForm));
             changeRoleButton.setOnAction(e -> toggleVisibility(roleForm));
+            addShiftButton.setOnAction(e -> toggleVisibility(shiftForm));
 
             userCard.getChildren().addAll(
                     userNameLabel, emailLabel, roleLabel,
-                    buttonBox, confirmDeleteBox, editForm, roleForm
+                    buttonBox, confirmDeleteBox, editForm, roleForm, shiftForm
             );
 
             userBox.getChildren().add(userCard);

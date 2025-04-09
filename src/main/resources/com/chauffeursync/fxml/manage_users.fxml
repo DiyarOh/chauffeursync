@@ -19,15 +19,15 @@
             <Label fx:id="nameLabel" styleClass="user-name" />
             <Label fx:id="emailLabel" styleClass="user-email" />
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="backButton" onAction="#handleBack" styleClass="quick-button" text="Terug" />
+            <Button fx:id="backButton" onAction="#handleBack" styleClass="back-button" text="Terug" />
             <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="logout-button" text="Uitloggen" />
         </HBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true">
-            <StackPane alignment="TOP_CENTER">
-                <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxWidth="1000" spacing="30">
+        <ScrollPane fitToWidth="true" styleClass="background">
+            <StackPane alignment="TOP_CENTER" styleClass="background">
+                <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxWidth="1000" spacing="30" >
                     <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
 
                     <!-- Statistiek kaarten -->

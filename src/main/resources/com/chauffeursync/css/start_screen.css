@@ -1,18 +1,1 @@
-.root {
-    -fx-font-family: 'Segoe UI', sans-serif;
-}
-
-.main-button {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-padding: 10 20;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
-    -fx-pref-width: 200;
-}
-
-.main-button:hover {
-    -fx-background-color: #2980b9;
-}
+@import url("base.css");

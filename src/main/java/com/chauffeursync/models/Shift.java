@@ -6,19 +6,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Shift {
-    private final String id;
+    private String id;
     private final String userId;
     private final String vehicleId;
-    private final String startTime;
-    private final String endTime;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
     private Integer startKm;
     private Integer endKm;
 
-    public Shift(String id, String userId, String vehicleId, String startTime, String endTime) {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter DEFAULT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static final DateTimeFormatter WITH_SECONDS_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public Shift(String id, String userId, String vehicleId, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
         this.userId = userId;
         this.vehicleId = vehicleId;
@@ -26,16 +32,31 @@ public class Shift {
         this.endTime = endTime;
     }
 
+    public Shift(String userId, String vehicleId, LocalDateTime startTime, LocalDateTime endTime) {
+        this.userId = userId;
+        this.vehicleId = vehicleId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public static Shift fromResultSet(ResultSet rs) throws Exception {
+        String startStr = rs.getString("start_time");
+        String endStr = rs.getString("end_time");
+
+        LocalDateTime startTime = parseFlexibleDateTime(startStr);
+        LocalDateTime endTime = parseFlexibleDateTime(endStr);
+
         Shift shift = new Shift(
                 rs.getString("id"),
                 rs.getString("user_id"),
                 rs.getString("vehicle_id"),
-                rs.getString("start_time"),
-                rs.getString("end_time")
+                startTime,
+                endTime
         );
+
         shift.startKm = rs.getObject("start_km") != null ? rs.getInt("start_km") : null;
         shift.endKm = rs.getObject("end_km") != null ? rs.getInt("end_km") : null;
+
         return shift;
     }
 
@@ -51,11 +72,11 @@ public class Shift {
         return vehicleId;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public String getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
@@ -102,67 +123,44 @@ public class Shift {
     }
 
     public static List<Shift> getAllShifts() {
-        List<Shift> shifts = new ArrayList<Shift>();
+        return getShiftsByQuery("SELECT * FROM Shift");
+    }
+
+    public static List<Shift> getUserShifts(String userId) {
+        return getShiftsByQuery("SELECT * FROM Shift WHERE user_id = ?", userId);
+    }
+
+    public static List<Shift> getVehicleShifts(String vehicleId) {
+        return getShiftsByQuery("SELECT * FROM Shift WHERE vehicle_id = ?", vehicleId);
+    }
+
+    private static List<Shift> getShiftsByQuery(String query, String... params) {
+        List<Shift> shifts = new ArrayList<>();
         try (Connection conn = DatabaseManager.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Shift ");
+            PreparedStatement stmt = conn.prepareStatement(query);
+            for (int i = 0; i < params.length; i++) {
+                stmt.setString(i + 1, params[i]);
+            }
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Shift shift = new Shift(
-                        rs.getString("id"),
-                        rs.getString("user_id"),
-                        rs.getString("vehicle_id"),
-                        rs.getString("start_time"),
-                        rs.getString("end_time")
-                        );
-                shifts.add(shift);
+                shifts.add(fromResultSet(rs));
             }
-        } catch (SQLException e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return shifts;
     }
 
-    public static List<Shift> getUserShifts(String id) {
-        List<Shift> shifts = new ArrayList<Shift>();
-        try (Connection conn = DatabaseManager.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Shift WHERE user_id=?");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Shift shift = new Shift(
-                        rs.getString("id"),
-                        rs.getString("user_id"),
-                        rs.getString("vehicle_id"),
-                        rs.getString("start_time"),
-                        rs.getString("end_time")
-                );
-                shifts.add(shift);
+    private static LocalDateTime parseFlexibleDateTime(String input) {
+        try {
+            return LocalDateTime.parse(input, DEFAULT_FORMAT);
+        } catch (Exception e) {
+            try {
+                return LocalDateTime.parse(input, WITH_SECONDS_FORMAT);
+            } catch (Exception ex) {
+                System.err.println("Kon datum/tijd niet parsen: " + input);
+                return null; // or throw an exception if nulls are not allowed
             }
-        } catch (SQLException e){
-            e.printStackTrace();
         }
-        return shifts;
-    }
-
-    public static List<Shift> getVehicleShifts(String id) {
-        List<Shift> shifts = new ArrayList<Shift>();
-        try (Connection conn = DatabaseManager.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Shift WHERE vehicle_id=?");
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Shift shift = new Shift(
-                        rs.getString("id"),
-                        rs.getString("user_id"),
-                        rs.getString("vehicle_id"),
-                        rs.getString("start_time"),
-                        rs.getString("end_time")
-                );
-                shifts.add(shift);
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return shifts;
     }
 }

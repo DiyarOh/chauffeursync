@@ -6,6 +6,6 @@
 <VBox xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER" spacing="10" prefWidth="300" prefHeight="200">
 
-    <Button text="Inloggen" onAction="#handleLogin"/>
-    <Button text="Registreren" onAction="#handleRegister"/>
+    <Button text="Inloggen" onAction="#handleLogin" styleClass="main-button"/>
+    <Button text="Registreren" onAction="#handleRegister" styleClass="main-button"/>
 </VBox>

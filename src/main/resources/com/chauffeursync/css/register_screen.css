@@ -1,7 +1,4 @@
-.root {
-    -fx-font-family: 'Segoe UI', sans-serif;
-    -fx-background-color: #f7f9fc;
-}
+@import url("base.css");
 
 /* Labels */
 .label {
@@ -23,32 +20,4 @@
 .text-field:focused, .password-field:focused {
     -fx-border-color: #3498db;
     -fx-border-width: 2;
-}
-
-/* Registratieknop */
-.button {
-    -fx-background-color: #2ecc71;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-padding: 10 18;
-    -fx-cursor: hand;
-    -fx-pref-width: 240;
-}
-
-.button:hover {
-    -fx-background-color: #27ae60;
-}
-
-.back-button {
-    -fx-background-color: transparent;
-    -fx-text-fill: #3498db;
-    -fx-underline: true;
-    -fx-font-size: 13px;
-    -fx-padding: 4 8;
-}
-
-.back-button:hover {
-    -fx-background-color: transparent;
-    -fx-text-fill: #2980b9;
 }

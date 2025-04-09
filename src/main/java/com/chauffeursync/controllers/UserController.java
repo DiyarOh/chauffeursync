@@ -1,6 +1,7 @@
 package com.chauffeursync.controllers;
 
 import com.chauffeursync.models.Role;
+import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
 
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class UserController {
         if (!newRole.isEmpty()) {
             User.updateRoleById(id, newRole);
         }
+    }
+
+    public void createShift (Shift shift) {
+
     }
 
     public User getCurrentUser() {

@@ -21,9 +21,9 @@
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true">
+        <ScrollPane fitToWidth="true" styleClass="background">
             <StackPane alignment="TOP_CENTER">
-                <VBox fx:id="mainContainer" maxWidth="1000" spacing="30" alignment="TOP_CENTER">
+                <VBox fx:id="mainContainer" styleClass="background"  maxWidth="1000" spacing="30" alignment="TOP_CENTER">
                     <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
 
                     <!-- Statistiek kaarten -->

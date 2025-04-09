@@ -1,11 +1,15 @@
 .root {
     -fx-font-family: 'Segoe UI', sans-serif;
-    -fx-background-color: #eef2f6;
+    -fx-text-fill: #3c3f40;
+}
+
+.background {
+    -fx-background-color: #3c3f40;
 }
 
 /* Top bar */
 .top-bar {
-    -fx-background-color: #fdfdfd;
+    -fx-background-color: #3c3f40;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 8, 0, 0, 2);
     -fx-alignment: center-left;
 }
@@ -13,11 +17,11 @@
 .user-name {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #ffffff;
 }
 
 .user-email {
-    -fx-text-fill: #666;
+    -fx-text-fill: #ffffff;
 }
 
 .logout-button {
@@ -32,22 +36,72 @@
     -fx-background-color: #c0392b;
 }
 
+/* disabled c6dabf*/
+.main-button {
+    -fx-background-color: #88d498;
+    -fx-text-fill: #3c3f40;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-width: 200;
+}
+
+.main-button:hover {
+    -fx-background-color: #1a936f;
+    -fx-text-fill: #88d498;
+}
+
+.main-button:disabled {
+    -fx-background-color: #c6dabf;
+}
+
 /* Quick nav buttons */
 .quick-button {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
+    -fx-background-color: #88d498;
+    -fx-text-fill: #3c3f40;
+    -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-padding: 10 18;
     -fx-font-size: 14px;
 }
 
 .quick-button:hover {
-    -fx-background-color: #2980b9;
+    -fx-background-color: #1a936f;
+    -fx-text-fill: #88d498;
+}
+
+.actie-knop {
+    -fx-background-color: #88d498;
+    -fx-text-fill: #3c3f40;
+    -fx-font-size: 12px;
+    -fx-padding: 6 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+}
+
+.actie-knop:hover {
+    -fx-background-color: #1a936f;
+    -fx-text-fill: #88d498;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3498db;
+    -fx-underline: true;
+    -fx-font-size: 13px;
+    -fx-padding: 4 8;
+}
+
+.back-button:hover {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2980b9;
 }
 
 /* Cards */
 .card {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #c6dabf;
     -fx-padding: 15;
     -fx-background-radius: 12;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
@@ -57,7 +111,7 @@
     -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-padding: 0 0 10 0;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #3c3f40;
 }
 
 .verwijder-box {
@@ -80,3 +134,4 @@
 .actie-knop-verwijder:hover {
     -fx-background-color: #c0392b;
 }
+

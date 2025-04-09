@@ -14,14 +14,13 @@ public class Vehicle {
     private final String licensePlate;
     private final String type;
     private final String status;
-    private final int currentKilometer;
+    private int currentKilometer;
 
-    public Vehicle(String id, String licensePlate, String type, String status, int currentKilometer) {
+    public Vehicle(String id, String licensePlate, String type, String status) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.type = type;
         this.status = status;
-        this.currentKilometer = currentKilometer;
     }
 
     public String getId() {
@@ -87,5 +86,29 @@ public class Vehicle {
             e.printStackTrace();
         }
         return reports;
+    }
+    public static List<Vehicle> getAllVehicles(){
+        List<Vehicle> vehicles = new ArrayList<>();
+
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Vehicle ");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Vehicle vehicle = new Vehicle(
+                        rs.getString("id"),
+                        rs.getString("license_plate"),
+                        rs.getString("type"),
+                        rs.getString("status")
+                );
+                vehicles.add(vehicle);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return vehicles;
+    }
+
+    public String getTitle() {
+        return String.format("%s %s", licensePlate, type);
     }
 }
