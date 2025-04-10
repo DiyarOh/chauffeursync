@@ -3,7 +3,6 @@ package com.chauffeursync.controllers;
 import com.chauffeursync.models.Role;
 import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class UserController {
     }
 
     public void createShift (Shift shift) {
-
+        shift.save();
     }
 
     public User getCurrentUser() {

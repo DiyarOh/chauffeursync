@@ -87,6 +87,7 @@ public class ManageUserController {
             buttonBox.getStyleClass().add("user-actions");
 
             // Add Shift form (hidden)
+            addShiftButton.getStyleClass().add("actie-knop");
             VBox shiftForm = new VBox(6);
             shiftForm.setManaged(false);
             shiftForm.setVisible(false);
@@ -108,10 +109,10 @@ public class ManageUserController {
 
                 if (selectedVehicle != null && startDate != null && endDate != null) {
                     userController.createShift(new Shift(
-                            user.getId() ,selectedVehicle.getId(), startDate, endDate
+                            user.getId(), selectedVehicle.getId(), startDate, endDate
                     ));
                 } else {
-                    System.out.println("Geen wijziging uitgevoerd.");
+                    System.out.println("Form niet volledig ingevuld.");
                 }
             });
 
@@ -135,7 +136,8 @@ public class ManageUserController {
             shiftForm.getChildren().addAll(
                     new Label("Selecteer voertuig:"), vehicleSelector,
                     new Label("Start tijd"), startPicker,
-                    new Label("End tijd"), endPicker
+                    new Label("End tijd"), endPicker,
+                    saveShiftBtn
             );
 
             // Edit user form (hidden)
@@ -253,5 +255,4 @@ public class ManageUserController {
         node.setVisible(!isVisible);
         node.setManaged(!isVisible);
     }
-
 }

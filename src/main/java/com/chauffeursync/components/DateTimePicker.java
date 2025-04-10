@@ -8,6 +8,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,16 +41,41 @@ public class DateTimePicker extends VBox {
     }
 
     private Spinner<LocalTime> createTimeSpinner() {
-        var times = IntStream.range(0, 24 * 4) // 15-minute intervals
+        var times = IntStream.range(0, 24 * 4)
                 .mapToObj(i -> LocalTime.of(i / 4, (i % 4) * 15))
                 .collect(Collectors.toList());
 
         Spinner<LocalTime> spinner = new Spinner<>();
-        spinner.setValueFactory(new SpinnerValueFactory.ListSpinnerValueFactory<>(FXCollections.observableArrayList(times)));
+        var valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<>(
+                FXCollections.observableArrayList(times)
+        );
+
+        valueFactory.setConverter(new StringConverter<>() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            @Override
+            public String toString(LocalTime time) {
+                return time != null ? time.format(formatter) : "";
+            }
+
+            @Override
+            public LocalTime fromString(String string) {
+                try {
+                    return LocalTime.parse(string, formatter);
+                } catch (Exception e) {
+                    System.err.println("Ongeldige tijdinvoer: " + string);
+                    return valueFactory.getValue();
+                }
+            }
+        });
+
+        spinner.setValueFactory(valueFactory);
         spinner.setEditable(true);
-        spinner.getValueFactory().setValue(LocalTime.of(8, 0)); // default time
+        valueFactory.setValue(LocalTime.of(8, 0)); // default
+
         return spinner;
     }
+
 
     public LocalDateTime getDateTime() {
         LocalDate date = datePicker.getValue();

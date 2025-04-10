@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Shift {
     private String id;
@@ -58,6 +61,26 @@ public class Shift {
         shift.endKm = rs.getObject("end_km") != null ? rs.getInt("end_km") : null;
 
         return shift;
+    }
+
+    public void save() {
+        String id = UUID.randomUUID().toString();
+
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO Shift (id, user_id, vehicle_id, start_time, end_time) VALUES (?, ?, ?, ?, ?)"
+            );
+            stmt.setString(1, id);
+            stmt.setString(2, userId);
+            stmt.setString(3, vehicleId);
+            stmt.setString(4, startTime.format(DEFAULT_FORMAT));
+            stmt.setString(5, endTime.format(DEFAULT_FORMAT));
+            stmt.executeUpdate();
+
+            System.out.println("Shift " + id + " saved");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getId() {
@@ -162,5 +185,9 @@ public class Shift {
                 return null; // or throw an exception if nulls are not allowed
             }
         }
+    }
+
+    private void setId(String id) {
+        this.id = id;
     }
 }
