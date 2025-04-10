@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class Shift {
     private String id;
-    private final String userId;
+    private String userId;
     private final String vehicleId;
     private final LocalDateTime startTime;
     private final LocalDateTime endTime;
@@ -111,6 +111,14 @@ public class Shift {
         return updateKmValue("end_km", km);
     }
 
+    public Integer getStartKm() {
+        return startKm;
+    }
+
+    public Integer getEndKm() {
+        return endKm;
+    }
+
     private boolean updateKmValue(String column, int km) {
         try (Connection conn = DatabaseManager.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("UPDATE Shift SET " + column + " = ? WHERE id = ?");
@@ -157,6 +165,11 @@ public class Shift {
         return getShiftsByQuery("SELECT * FROM Shift WHERE vehicle_id = ?", vehicleId);
     }
 
+    public static Shift getById(String shiftId) {
+        List<Shift> result = getShiftsByQuery("SELECT * FROM Shift WHERE id = ?", shiftId);
+        return result.isEmpty() ? null : result.getFirst();
+    }
+
     private static List<Shift> getShiftsByQuery(String query, String... params) {
         List<Shift> shifts = new ArrayList<>();
         try (Connection conn = DatabaseManager.getConnection()) {
@@ -189,5 +202,32 @@ public class Shift {
 
     private void setId(String id) {
         this.id = id;
+    }
+
+    public boolean delete() {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Shift WHERE id = ?");
+            stmt.setString(1, this.id);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateUserId(String newUserId) {
+        try (Connection conn = DatabaseManager.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Shift SET user_id = ? WHERE id = ?");
+            stmt.setString(1, newUserId);
+            stmt.setString(2, this.id);
+            int updated = stmt.executeUpdate();
+            if (updated > 0) {
+                this.userId = newUserId;
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }

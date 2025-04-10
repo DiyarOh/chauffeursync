@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="700" prefWidth="1000" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml">
+
+    <!-- Top bar -->
+    <top>
+        <HBox spacing="20" styleClass="top-bar">
+            <padding><Insets top="15" right="20" bottom="15" left="20" /></padding>
+            <Label fx:id="nameLabel" styleClass="user-name" />
+            <Label fx:id="emailLabel" styleClass="user-email" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="backButton" onAction="#handleBack" styleClass="back-button" text="Terug" />
+            <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="logout-button" text="Uitloggen" />
+        </HBox>
+    </top>
+
+    <!-- Center content -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" styleClass="background">
+            <StackPane alignment="TOP_CENTER" styleClass="background" maxHeight="Infinity">
+                <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxWidth="800" spacing="30" VBox.vgrow="ALWAYS">
+                    <padding><Insets top="30" bottom="30" left="20" right="20" /></padding>
+
+                    <VBox alignment="TOP_CENTER" spacing="15" styleClass="card" prefHeight="600">
+                        <Label text="Shift Details" styleClass="section-title" />
+
+                        <Separator />
+                        <HBox spacing="10">
+                            <Label text="Starttijd:" />
+                            <Label fx:id="startTimeLabel" />
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Eindtijd:" />
+                            <Label fx:id="endTimeLabel" />
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Voertuig ID:" />
+                            <Label fx:id="vehicleIdLabel" />
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Start km:" />
+                            <Spinner fx:id="startKmSpinner" />
+                            <Button text="Bijwerken" fx:id="updateStartKmBtn" onAction="#handleUpdateStartKm" styleClass="actie-knop" />
+                        </HBox>
+
+                        <HBox spacing="10">
+                            <Label text="Eind km:" />
+                            <Spinner fx:id="endKmSpinner" />
+                            <Button text="Bijwerken" fx:id="updateEndKmBtn" onAction="#handleUpdateEndKm" styleClass="actie-knop" />
+                        </HBox>
+
+                        <!-- Gebruiker wijzigen -->
+                        <Separator />
+                        <Label text="Gebruiker wijzigen" styleClass="section-title" />
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Toewijzen aan gebruiker:" />
+                            <ComboBox fx:id="userSelector" prefWidth="250" />
+                            <Button text="Opslaan" fx:id="changeUserBtn" onAction="#handleChangeUser" styleClass="actie-knop" />
+                        </HBox>
+
+                        <!-- Shift verwijderen -->
+                        <Separator />
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button text="Verwijder deze shift" fx:id="deleteShiftBtn" onAction="#handleDeleteShift" styleClass="actie-knop-verwijder" />
+                        </HBox>
+
+                    </VBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </center>
+</BorderPane>

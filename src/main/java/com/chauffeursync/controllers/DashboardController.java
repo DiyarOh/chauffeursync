@@ -4,6 +4,7 @@ import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
 import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
+import com.chauffeursync.screens.ShiftDetailScreen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -65,7 +66,7 @@ public class DashboardController {
 
             shiftCard.setOnMouseClicked(e -> {
                 System.out.println("Shift " + shift.getId() + " geselecteerd");
-                // Hier later een detailview openen
+                manager.switchTo(new ShiftDetailScreen(manager, shift));
             });
 
             shiftBox.getChildren().add(shiftCard);

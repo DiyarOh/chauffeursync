@@ -41,6 +41,14 @@ public class ScreenManager {
         }
     }
 
+    public void switchTo(AbstractScreen screen) {
+        if (screen != null) {
+            screen.show();
+        } else {
+            System.out.println("Geen scherm meegegeven.");
+        }
+    }
+
     public Stage getPrimaryStage() {
         return primaryStage;
     }
