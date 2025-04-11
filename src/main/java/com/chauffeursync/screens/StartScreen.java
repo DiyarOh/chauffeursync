@@ -1,12 +1,11 @@
 package com.chauffeursync.screens;
 
 import com.chauffeursync.enums.ScreenType;
-import com.chauffeursync.interfaces.Screen;
 import com.chauffeursync.manager.ScreenManager;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 

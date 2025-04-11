@@ -2,7 +2,10 @@ package com.chauffeursync.models;
 
 import com.chauffeursync.database.DatabaseManager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 

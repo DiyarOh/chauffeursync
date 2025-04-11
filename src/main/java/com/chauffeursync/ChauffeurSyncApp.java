@@ -1,8 +1,8 @@
 package com.chauffeursync;
 
 import com.chauffeursync.database.DatabaseManager;
-import com.chauffeursync.manager.ScreenManager;
 import com.chauffeursync.enums.ScreenType;
+import com.chauffeursync.manager.ScreenManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

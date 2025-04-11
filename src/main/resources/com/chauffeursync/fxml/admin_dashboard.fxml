@@ -18,7 +18,7 @@
     </top>
 
     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true" styleClass="background">
+        <ScrollPane fitToHeight="true" maxHeight="-Infinity" fitToWidth="true" styleClass="background">
             <StackPane alignment="TOP_CENTER">
                 <VBox fx:id="mainContainer" alignment="TOP_CENTER" maxWidth="1000" spacing="30" styleClass="background">
                     <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
@@ -35,15 +35,26 @@
 
                     <!-- Meldingen en shifts -->
                     <HBox alignment="TOP_CENTER" spacing="30">
-                        <VBox fx:id="notificationsBox" alignment="TOP_CENTER" minHeight="500" prefWidth="400" spacing="10" styleClass="card">
+                        <VBox fx:id="notificationsBox"
+                              alignment="TOP_CENTER"
+                              prefHeight="500"
+                              prefWidth="400"
+                              spacing="10"
+                              styleClass="card"
+                              VBox.vgrow="ALWAYS">
                             <Label styleClass="section-title" text="Meldingen" />
-                            <!-- Meldingen worden dynamisch toegevoegd -->
                         </VBox>
 
-                        <VBox alignment="TOP_CENTER" minHeight="500" prefWidth="550" spacing="10" styleClass="card">
+                        <VBox alignment="TOP_CENTER"
+                              prefHeight="500"
+                              prefWidth="550"
+                              spacing="10"
+                              styleClass="card"
+                              VBox.vgrow="ALWAYS">
                             <Label styleClass="section-title" text="Shifts" />
                             <VBox fx:id="shiftBox" spacing="10" />
                         </VBox>
+
                     </HBox>
                 </VBox>
             </StackPane>

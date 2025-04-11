@@ -2,7 +2,6 @@ package com.chauffeursync.controllers;
 
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
-
 import com.chauffeursync.models.Role;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;

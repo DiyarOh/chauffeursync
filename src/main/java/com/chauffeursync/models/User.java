@@ -2,10 +2,12 @@ package com.chauffeursync.models;
 
 import com.chauffeursync.database.DatabaseManager;
 
-import java.sql.*;
+import java.security.MessageDigest;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.security.MessageDigest;
 import java.util.UUID;
 
 public class User {

@@ -1,7 +1,6 @@
 package com.chauffeursync.screens;
 
 import com.chauffeursync.controllers.ManageUserController;
-import com.chauffeursync.controllers.RegisterController;
 import com.chauffeursync.manager.ScreenManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

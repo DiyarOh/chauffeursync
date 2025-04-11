@@ -3,8 +3,8 @@ package com.chauffeursync.screens;
 import com.chauffeursync.manager.ScreenManager;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 public abstract class AbstractScreen {
 

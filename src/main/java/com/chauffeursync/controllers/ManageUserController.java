@@ -1,4 +1,5 @@
 package com.chauffeursync.controllers;
+
 import com.chauffeursync.components.DateTimePicker;
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
@@ -13,9 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 public class ManageUserController {

@@ -1,11 +1,6 @@
 package com.chauffeursync.screens;
 
-import com.chauffeursync.controllers.DashboardController;
-import com.chauffeursync.interfaces.Screen;
 import com.chauffeursync.manager.ScreenManager;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 
 public class AdminDashboardScreen extends DashboardScreen {
 

@@ -3,9 +3,9 @@ package com.chauffeursync.manager;
 import com.chauffeursync.controllers.UserController;
 import com.chauffeursync.controllers.VehicleController;
 import com.chauffeursync.enums.ScreenType;
-import com.chauffeursync.interfaces.Screen;
 import com.chauffeursync.screens.*;
 import javafx.stage.Stage;
+
 import java.util.HashMap;
 import java.util.Map;
 
