@@ -135,3 +135,22 @@
     -fx-background-color: #c0392b;
 }
 
+.list-card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 15;
+    -fx-background-radius: 12;
+    -fx-border-color: #e4eaf1;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 6, 0, 0, 1);
+    -fx-spacing: 6;
+}
+
+.list-actions {
+    -fx-padding: 8 0 0 0;
+}
+
+.list-card TextField,
+.list-card PasswordField,
+.list-card ComboBox {
+    -fx-pref-width: 250;
+}

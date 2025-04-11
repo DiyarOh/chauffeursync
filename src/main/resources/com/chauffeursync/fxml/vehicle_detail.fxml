@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Top bar -->
+    <top>
+        <HBox spacing="20" styleClass="top-bar">
+            <padding><Insets top="15" right="20" bottom="15" left="20"/></padding>
+            <Label fx:id="nameLabel" styleClass="user-name" />
+            <Label fx:id="emailLabel" styleClass="user-email" />
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backBtn" text="Terug" onAction="#handleBack" styleClass="back-button" />
+        </HBox>
+    </top>
+
+    <!-- Main form -->
+    <center>
+        <VBox spacing="20" alignment="CENTER" styleClass="card" maxWidth="600" BorderPane.alignment="CENTER">
+            <padding><Insets top="30" bottom="30" left="30" right="30"/></padding>
+
+            <Label text="Voertuiggegevens" styleClass="section-title"/>
+
+            <HBox spacing="10">
+                <Label text="Kenteken:" />
+                <TextField fx:id="licensePlateField" promptText="12-ABC-3" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Type:" />
+                <TextField fx:id="typeField" promptText="Kia EV6" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Status:" />
+                <TextField fx:id="statusField" promptText="actief / in onderhoud" />
+            </HBox>
+
+            <HBox spacing="10">
+                <Label text="Huidige km-stand:" />
+                <TextField fx:id="kmField" promptText="100000" />
+            </HBox>
+
+            <Button fx:id="saveBtn" text="Opslaan" onAction="#handleSave" styleClass="actie-knop" />
+        </VBox>
+    </center>
+</BorderPane>

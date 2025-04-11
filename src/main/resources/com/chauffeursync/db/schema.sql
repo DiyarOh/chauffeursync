@@ -43,11 +43,13 @@ CREATE TABLE IF NOT EXISTS KilometerEntry (
     shift_id CHAR(36),
     vehicle_id CHAR(36),
     km INT,
+    user_id CHAR(36),
     timestamp DATETIME,
     confirmed_by_driver BOOLEAN,
     confirmed_by_admin BOOLEAN,
     FOREIGN KEY (shift_id) REFERENCES Shift(id) ON DELETE SET NULL,
     FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE SET NULL
     );
 
 CREATE TABLE IF NOT EXISTS DamageReport (

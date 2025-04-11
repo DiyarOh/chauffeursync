@@ -1,6 +1,7 @@
 package com.chauffeursync.manager;
 
 import com.chauffeursync.controllers.UserController;
+import com.chauffeursync.controllers.VehicleController;
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.interfaces.Screen;
 import com.chauffeursync.screens.*;
@@ -14,6 +15,7 @@ public class ScreenManager {
     private final Map<ScreenType, AbstractScreen> screenRegistry = new HashMap<>();
 
     private final UserController userController = new UserController();
+    private final VehicleController vehicleController = new VehicleController();
 
     public ScreenManager(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -26,6 +28,9 @@ public class ScreenManager {
         register(ScreenType.CHAUFFEUR_DASHBOARD, new ChauffeurDashboardScreen(this));
         register(ScreenType.BOEKHOUDER_DASHBOARD, new BoekhouderDashboardScreen(this));
         register(ScreenType.MANAGE_USERS, new ManageUserScreen(this));
+        register(ScreenType.VEHICLE_LIST, new VehicleListScreen(this));
+        register(ScreenType.VEHICLE_DETAIL, new VehicleDetailScreen(this));
+        vehicleController.setScreenManager(this);
     }
 
     private void register(ScreenType type, AbstractScreen screen) {
@@ -55,5 +60,9 @@ public class ScreenManager {
 
     public UserController getUserController() {
         return userController;
+    }
+
+    public VehicleController getVehicleController() {
+        return vehicleController;
     }
 }

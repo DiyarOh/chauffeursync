@@ -58,9 +58,9 @@
                         </HBox>
 
                         <!-- Gebruiker wijzigen -->
-                        <Separator />
-                        <Label text="Gebruiker wijzigen" styleClass="section-title" />
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label fx:id="changeUser" text="Gebruiker wijzigen" styleClass="section-title" />
+
+                        <HBox fx:id="changeUserBox" spacing="10" alignment="CENTER_LEFT">
                             <Label text="Toewijzen aan gebruiker:" />
                             <ComboBox fx:id="userSelector" prefWidth="250" />
                             <Button text="Opslaan" fx:id="changeUserBtn" onAction="#handleChangeUser" styleClass="actie-knop" />
@@ -68,7 +68,7 @@
 
                         <!-- Shift verwijderen -->
                         <Separator />
-                        <HBox spacing="10" alignment="CENTER_LEFT">
+                        <HBox fx:id="deleteShift" spacing="10" alignment="CENTER_LEFT">
                             <Button text="Verwijder deze shift" fx:id="deleteShiftBtn" onAction="#handleDeleteShift" styleClass="actie-knop-verwijder" />
                         </HBox>
 

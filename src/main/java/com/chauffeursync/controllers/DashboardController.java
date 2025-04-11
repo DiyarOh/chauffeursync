@@ -48,8 +48,9 @@ public class DashboardController {
     }
     private void loadShifts(User user) {
         shiftBox.getChildren().clear();
+        List<Shift> shifts = user.getShifts();
 
-        for (Shift shift : user.getShifts()) {
+        for (Shift shift : shifts) {
             VBox shiftCard = new VBox();
             shiftCard.getStyleClass().add("shift-card");
             shiftCard.setSpacing(6);
@@ -71,6 +72,13 @@ public class DashboardController {
 
             shiftBox.getChildren().add(shiftCard);
         }
+
+        if (shifts.isEmpty()) {
+            Label emptyLabel = new Label("Je hebt momenteel geen ingeplande shifts.");
+            emptyLabel.getStyleClass().add("empty-message");
+            emptyLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666; -fx-padding: 20;");
+            shiftBox.getChildren().add(emptyLabel);
+        }
     }
 
     @FXML
@@ -80,7 +88,7 @@ public class DashboardController {
 
     @FXML
     private void handleManageVehicles() {
-        // TODO: Navigatie naar voertuigenbeheer
+        manager.switchTo(ScreenType.VEHICLE_LIST);
     }
 
     @FXML

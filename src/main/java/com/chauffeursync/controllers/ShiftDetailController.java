@@ -2,10 +2,12 @@ package com.chauffeursync.controllers;
 
 import com.chauffeursync.enums.ScreenType;
 import com.chauffeursync.manager.ScreenManager;
+import com.chauffeursync.models.KilometerEntry;
 import com.chauffeursync.models.Shift;
 import com.chauffeursync.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 
 import java.util.List;
@@ -33,6 +35,10 @@ public class ShiftDetailController {
     @FXML private ComboBox<User> userSelector;
     @FXML private Button changeUserBtn;
     @FXML private Button deleteShiftBtn;
+    @FXML private Label changeUser;
+    @FXML private HBox changeUserBox;
+    @FXML private HBox deleteShift;
+
 
     public ShiftDetailController(ScreenManager manager, Shift shift) {
         this.manager = manager;
@@ -41,6 +47,17 @@ public class ShiftDetailController {
 
     @FXML
     public void initialize() {
+        boolean isAdmin = manager.getUserController().getCurrentUser().isAdmin();
+
+        changeUser.setVisible(isAdmin);
+        changeUser.setManaged(isAdmin);
+        changeUserBox.setVisible(isAdmin);
+        changeUserBox.setManaged(isAdmin);
+        deleteShift.setManaged(isAdmin);
+        deleteShift.setVisible(isAdmin);
+        deleteShiftBtn.setManaged(isAdmin);
+        deleteShiftBtn.setVisible(isAdmin);
+
         if (manager.getUserController().getCurrentUser() != null) {
             nameLabel.setText(manager.getUserController().getCurrentUser().getName());
             emailLabel.setText(manager.getUserController().getCurrentUser().getEmail());
@@ -84,10 +101,6 @@ public class ShiftDetailController {
                             .orElse(null)
             );
         }
-
-        SpinnerValueFactory<Integer> kmFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, 0);
-        startKmSpinner.setValueFactory(kmFactory);
-        endKmSpinner.setValueFactory(kmFactory);
     }
 
 
@@ -96,7 +109,7 @@ public class ShiftDetailController {
         if (manager.getUserController().getCurrentUser().isAdmin()) {
             manager.switchTo(ScreenType.ADMIN_DASHBOARD);
         } else {
-            manager.switchTo(ScreenType.DASHBOARD);
+            manager.switchTo(ScreenType.CHAUFFEUR_DASHBOARD);
         }
     }
 
@@ -108,12 +121,14 @@ public class ShiftDetailController {
     @FXML
     private void handleUpdateStartKm() {
         System.out.println("Start km bijgewerkt: " + startKmSpinner.getValue());
+        KilometerEntry.createEntry(shift.getId(), shift.getVehicleId(), startKmSpinner.getValue(), manager.getUserController().getCurrentUser().getId());
         shift.updateStartKm(startKmSpinner.getValue());
     }
 
     @FXML
     private void handleUpdateEndKm() {
         System.out.println("Eind km bijgewerkt: " + endKmSpinner.getValue());
+        KilometerEntry.createEntry(shift.getId(), shift.getVehicleId(), endKmSpinner.getValue(), manager.getUserController().getCurrentUser().getId());
         shift.updateEndKm(endKmSpinner.getValue());
     }
 
@@ -150,6 +165,9 @@ public class ShiftDetailController {
     }
 
     private void configureSpinner(Spinner<Integer> spinner, int initialValue) {
+        // Clear any existing formatter (optional safety)
+        spinner.getEditor().setTextFormatter(null);
+
         SpinnerValueFactory.IntegerSpinnerValueFactory factory =
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, Integer.MAX_VALUE, initialValue);
         spinner.setValueFactory(factory);

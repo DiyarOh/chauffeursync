@@ -10,4 +10,6 @@ public enum ScreenType {
     BOEKHOUDER_DASHBOARD,
     MANAGE_USERS,
     SHIFT_DETAIL,
+    VEHICLE_DETAIL,
+    VEHICLE_LIST,
 }
