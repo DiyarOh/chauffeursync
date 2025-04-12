@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS Role (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     title VARCHAR(100) UNIQUE
     );
 
 CREATE TABLE IF NOT EXISTS User (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     name VARCHAR(100),
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255),
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS User (
     );
 
 CREATE TABLE IF NOT EXISTS Vehicle (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                       id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     license_plate VARCHAR(20) UNIQUE,
     type VARCHAR(100),
     status VARCHAR(50),
@@ -21,13 +21,13 @@ CREATE TABLE IF NOT EXISTS Vehicle (
     );
 
 CREATE TABLE IF NOT EXISTS Garage (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                      id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     title VARCHAR(100),
     address VARCHAR(255)
     );
 
 CREATE TABLE IF NOT EXISTS Shift (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                     id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     user_id CHAR(36),
     vehicle_id CHAR(36),
     start_time VARCHAR(50) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Shift (
     );
 
 CREATE TABLE IF NOT EXISTS KilometerEntry (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                              id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     shift_id CHAR(36),
     vehicle_id CHAR(36),
     km INT,
@@ -48,12 +48,12 @@ CREATE TABLE IF NOT EXISTS KilometerEntry (
     confirmed_by_driver BOOLEAN,
     confirmed_by_admin BOOLEAN,
     FOREIGN KEY (shift_id) REFERENCES Shift(id) ON DELETE SET NULL,
-    FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id) ON DELETE SET NULL
+    FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id) ON DELETE SET NULL,
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE SET NULL
     );
 
 CREATE TABLE IF NOT EXISTS DamageReport (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                            id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     vehicle_id CHAR(36),
     user_id CHAR(36),
     description TEXT,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS DamageReport (
     );
 
 CREATE TABLE IF NOT EXISTS MaintenanceTask (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                               id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     vehicle_id CHAR(36),
     garage_id CHAR(36),
     scheduled_date DATE,
@@ -78,18 +78,18 @@ CREATE TABLE IF NOT EXISTS MaintenanceTask (
     );
 
 CREATE TABLE IF NOT EXISTS DriverReport (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                            id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     user_id CHAR(36),
-    period VARCHAR(30),
+    timeperiod VARCHAR(30),
     total_hours FLOAT,
     generated_at DATETIME,
     FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE SET NULL
     );
 
 CREATE TABLE IF NOT EXISTS VehicleReport (
-    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+                                             id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     vehicle_id CHAR(36),
-    period VARCHAR(30),
+    timeperiod VARCHAR(30),
     total_kilometers INT,
     generated_at DATETIME,
     FOREIGN KEY (vehicle_id) REFERENCES Vehicle(id) ON DELETE SET NULL
